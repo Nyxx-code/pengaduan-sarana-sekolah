@@ -42,7 +42,7 @@
             <h5 class="mb-0">
                  <i class="fa-solid fa-plus"></i> Form pengaduan siswa
             </h5>
-        </div>
+       
 
         <div class="card-body">
             <form method="POST"action="../proses/simpan-pengaduan.php">
@@ -72,10 +72,19 @@
             </form>
         </div>
 
-        <div class="d-flex justify_content-between">
-            <a href="index-siswa.php"></a>
-        </div>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-light"><a href="index-siswa.php">
+                <i class="fa-solid fa-arrow-left"></i> Batal
+            </a>
+            </button>
 
+            <button type="submit" name="kirim" class="btn btn-success">
+                Kirim pengaduan
+            </button>
+        </div>
     </div>
+ </div>
+
+</div>
 </body>
 </html>
