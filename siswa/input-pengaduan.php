@@ -38,7 +38,7 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm border-1 p-3">
             <h5 class="mb-0">
                  <i class="fa-solid fa-plus"></i> Form pengaduan siswa
             </h5>
@@ -48,7 +48,7 @@
             <form method="POST"action="../proses/simpan-pengaduan.php">
                 <div class="mb-3">
                     <label class="form-label">Kategori sarana: </label>
-                    <select name="id_kategori" class="form-select" required>
+                    <select name="id_kategori" class="form-select"> <!--BELUM REQUIRED-->
                         <option value="">--Silakan pilih kategori sarana</option>
 
                         <?php while ($k = mysqli_fetch_assoc($kategori)) { ?>
