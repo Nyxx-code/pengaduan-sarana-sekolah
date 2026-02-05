@@ -12,9 +12,18 @@
     //mengambil nis dari database
     $nis = $_SESSION['siswa']['nis'];
 
+    // mengambil id kategori dari form yg dipilih siswa
     $id_kategori = mysqli_real_escape_string($conn, $_POST['id_kategori']);
 
+    //mengambil data lokasi dari form lokasi
     $lokasi = mysqli_real_escape($conn, $_POST['lokasi']);
 
+     //mengambil data deskripsi dari form deskripsi
     $ket = mysqli_real_escape($conn, $_POST['ket']);
+
+    mysqli_query($conn, 
+    "INSERT INTO input_aspirasi (nis, id_kategori, lokasi, ket)
+    VALUES ('$nis', '$id_kategori', '$lokasi', '$ket')"
+    
+    )
 ?>
