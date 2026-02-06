@@ -69,19 +69,23 @@
                     <label class="form-label">Deskripsi pengaduan</label>
                     <textarea name="ket" class="form-control" rows="4" required></textarea>
                 </div>
+
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-light">
+                        <a href="index-siswa.php">
+                            <i class="fa-solid fa-arrow-left"></i> Batal
+                        </a>
+                    </button>
+
+                    <button type="submit" name="kirim" class="btn btn-success">
+                    Kirim pengaduan
+                    </button>
+
+                </div>
             </form>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-light"><a href="index-siswa.php">
-                <i class="fa-solid fa-arrow-left"></i> Batal
-            </a>
-            </button>
-
-            <button type="submit" name="kirim" class="btn btn-success">
-                Kirim pengaduan
-            </button>
-        </div>
+        
     </div>
  </div>
 
