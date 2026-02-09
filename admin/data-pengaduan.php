@@ -35,9 +35,9 @@
                     <a href="index-admin.php" class="btn btn-danger btn-sm me-2">
                        <i class="fa-solid fa-arrow-left"></i> Kembali
                     </a>
-                        <a href="../proses/logout.php" class="btn btn-light btn-sm">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
-                        </a>
+                    <a href="../proses/logout.php" class="btn btn-light btn-sm">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
             </div>
 
         </div>
@@ -88,7 +88,21 @@
 
                                 ORDER BY ia.tanggal DESC
                                 ");
+
+                                if (mysqli_num_row($query) >0) {
+
+                                while ($row = mysqli_fetch_assoc($query)) {
+                                }
+                                }
                             ?>
+
+                            <tr>
+                                <td class="text-center"><?= $no++; ?> </td>
+
+                                <td class="text-center"><?= date('d-m-y H:i', strtotime($rows['tanggal'])); ?> </td>
+
+                                
+                            </tr>
                         </tbody>
                     </table>
                 </div>
