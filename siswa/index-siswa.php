@@ -34,11 +34,13 @@ $siswa = $_SESSION['siswa'];
     <div class="container mt-4">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5>Anda login dengan NIS: <?= $siswa['nis']; ?></h5>
+                <h5>Anda login dengan NIS: <b><?= $siswa['nis']; ?></b></h5>
+                <p>Nama : <b><?= $siswa['nama']; ?></b> </p>
                 <p>Kelas : <b><?= $siswa['kelas']; ?></b></p>
+                
                 <hr>
 
-                <a href="input-pengaduan.php" class="btn btn-success">
+                <a href="input-pengaduan.php" class="btn btn-success me-2">
                     <i class="fa-solid fa-plus"></i> Buat pengaduan
                 </a>
 

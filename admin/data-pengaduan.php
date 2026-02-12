@@ -59,7 +59,10 @@
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>NIS</th>
+                                <th>Kelas</th>
                                 <th>Kategori</th>
+                                <th>Lokasi</th>
+                                <th>Keterangan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -75,10 +78,10 @@
                                 ia. tanggal,
                                 S. nis,
                                 s. kelas,
-                                k. kategori,
+                                k. ket_kategori,
                                 ia. lokasi,
                                 ia. ket,
-                                a. status
+                                IFNULL (a.status, 'menunggu') AS status
                                 FROM input_aspirasi ia
                                 -- ia = alias tabel input_aspirasi
 
@@ -87,19 +90,68 @@
 
                                 JOIN kategori k ON ia.id_kategori = k.id_kategori
 
-                                LEFT JOIN aspirasi a ON ia.id_kategori = a.id_kategori
+                                LEFT JOIN aspirasi a ON ia.id_pelaporan = a.id_pelaporan
 
                                 ORDER BY ia.tanggal DESC
-                                ")
+                                ");
 
                                 if (mysqli_num_rows($query) >0 ) {
-
-                                while ($row = mysqli_fetch_assoc($query) ) {
-
-                                }
                                 
+                                while ($row = mysqli_fetch_assoc($query) ) {
                                 
                             ?>
+
+                            <tr>
+                                <td class="text-center"><?= $no++; ?> </td>
+
+                                <td class="text-center"><?= date('d-m-y H:i', strtotime($row ['tanggal'])); ?> </td>
+
+                                <td class="text-center"><?= $row['nis']; ?> </td>
+
+                                <td class="text-center"><?= $row['kelas']; ?> </td>
+
+                                <td><?= $row['ket_kategori']; ?> </td>
+
+                                <td><?= $row['lokasi']; ?> </td>
+
+                                <td><?= $row['ket']; ?> </td>
+
+                                <td class="text-center">
+                                    <?php
+                                        if ($row['status'] == 'menunggu') {
+                                            echo '<span class="badge bg-secondary"> Menunggu </span>';
+                                        }elseif ($row['status'] == 'proses') {
+                                            echo '<span class="badge bg-warning"> Proses </span>';
+                                        }elseif ($row['status'] == 'selesai') {
+                                            echo '<span class="badge bg-success"> Selesai </span>';
+                                        }
+                                    ?>
+                                </td>
+
+                                <!-- btn lihat dan hapus -->
+                                <td class="text-center">
+                                    <a href="lihat-pengaduan.php?id=<?= $row['id_pelaporan']; ?>" class="btn btn-info btn-sm">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    <a href="../proses/hapus-pengaduan.php?id=<?= $row['id_pelaporan']; ?>" class="btn btn-danger btn-sm"
+                                    
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus pengaduan ini?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+
+                                <?php
+                                }
+                                }else {
+                                    echo "<tr>
+                                                <td colspan='8' class='text-center'>
+                                                    Data belum tersedia
+                                                </td>
+                                          </tr>";
+                                }
+                                ?>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -108,6 +160,7 @@
         </div>
 
     </div>
+<script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
