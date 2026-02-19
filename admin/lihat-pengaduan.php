@@ -94,9 +94,62 @@
                 <table class="table table-bordered">
                     <tr>
                         <th width="38%">NIS</th>
-                        <th><?= $data</th>
+                        <td><?= $data['nis']; ?></td>
                     </tr>
+
+                    <tr>
+                        <th>Kelas</th>
+                        <td><?= $data['kelas']; ?> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Kategori</th>
+                        <td><?= $data['ket_kategori']; ?> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Lokasi</th>
+                        <td><?= $data['lokasi']; ?> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Keterangan</th>
+                        <td><?= $data['ket']; ?> </td>
+                    </tr>
+
                 </table>
+
+                <!-- Form status & feedback -->
+                <form method="post" action="../proses/update-pengaduan.php">
+                    <input type="hidden" name="id_pelaporan" value="<?= $data['id_pelaporan']; ?>">
+                    <input type="hidden" name="id_kategori" value="<?= $data['id_kategori']; ?>">
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Status Pengaduan</strong></label>
+                        <select name="status" class="form-select" required>
+                           <option value="Menunggu" <?= ($data['status'] == 'Menunggu') ? 'selected' : ''; ?>> Menunggu </option>
+                           <option value="Proses" <?= ($data['status'] == 'Proses') ? 'selected' : ''; ?>> Proses </option>
+                           <option value="Selesai" <?= ($data['status'] == 'Selesai') ? 'selected' : ''; ?>> Selesai </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Feedback</label>
+                        <textarea name="feedback" class="form-control" rows="3" <?= $data['feedback']; ?> ></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="data-pengaduan.php" class="btn btn-secondary">
+                            Kembali
+                        </a>
+
+                        <button class="btn btn-success" type="submit" name="simpan">
+                            Simpan
+                        </button>
+
+                    </div>
+                </form>
+
             </div>
 
         </div>

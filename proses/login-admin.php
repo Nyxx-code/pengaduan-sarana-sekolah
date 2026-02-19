@@ -35,7 +35,7 @@ $_SESSION['admin'] = $username;
 }else {
     //jika login gagal
     echo "<script> alert('username atau password salah');
-    window.location='../login.php'; </script>";
+    window.location='../admin/login.php'; </script>";
     exit;
 }
 
