@@ -30,9 +30,62 @@
 </head>
 <body class="bg-light">
     <!-- navbar -->
-    <nav>
-        
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container-fluid">
+
+            <!-- judul halaman -->
+            <a href="index-admin.php" class="navbar-brand">
+                <i class="fa-solid fa-tags"></i> Data Kategori
+            </a>
+                
+            <!-- tombol kembali -->
+            <div class="d-flex">
+                <a href="index-admin.php" class="btn btn-light btn-sm me-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
+
+                <!-- tombol logout -->
+                <a href="../proses/logout.php" class="btn btn-danger btn-sm">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+
+            </div>
+            
+        </div>
     </nav>
-    
+
+    <!-- konten -->
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+
+            <!-- card header -->
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fa-solid fa-list"></i> Kategori Sarana
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="../proses/tambah-kategori.php" class="mb-3">
+                    <div class="col-md-8">
+                        <input type="text" 
+                            name="ket_kategori" 
+                            class="form-control" 
+                            placeholder="nama kategori" require>
+                            <br>
+
+                        <!-- tombol tambah -->
+                        <div class="col-md-4 d-grid">
+                            <button class="btn btn-success" name="simpan">
+                                <i class="fa-solid fa-plus"></i> Tambah
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

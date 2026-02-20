@@ -47,7 +47,7 @@ if (!isset($_SESSION['admin'])) {
                     Silakan kelola data pengaduan sarana sekolah.
                 </div>
             </div>
-            <!-- =====================Card 1 ============================= -->
+            <!-- =====================Card 1 data pengaduan ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
@@ -59,19 +59,19 @@ if (!isset($_SESSION['admin'])) {
                 </div>
             </div>
 
-                  <!-- =====================Card 2 ============================= -->
+                  <!-- =====================Card 2 data kategori ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
                         <i class="fa-solid fa-list text-primary mb-3"></i>
                         <h5>Kategori</h5>
                         <p class="text-muted">Kelola kategori</p>
-                        <a href="data-pengaduan.php" class="btn btn-primary"> Kelola</a>
+                        <a href="kategori.php" class="btn btn-primary"> Kelola</a>
                     </div>
                 </div>
             </div>
 
-            <!-- =====================Card 3 ============================= -->
+            <!-- =====================Card 3 data akun siswa ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
@@ -84,7 +84,7 @@ if (!isset($_SESSION['admin'])) {
             </div>
              
 
-            <!-- =====================Card 4 ============================= -->
+            <!-- =====================Card 4 rekap pengaduan ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
