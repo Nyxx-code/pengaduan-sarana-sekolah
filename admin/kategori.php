@@ -71,8 +71,9 @@
                         <input type="text" 
                             name="ket_kategori" 
                             class="form-control" 
-                            placeholder="nama kategori" require>
-                            <br>
+                            placeholder="nama kategori" required
+                        >
+                        <br>
 
                         <!-- tombol tambah -->
                         <div class="col-md-4 d-grid">
@@ -83,6 +84,45 @@
 
                     </div>
                 </form>
+
+                <!-- tabel data kategori -->
+                <div class="table-responsive">
+                    <table class="table-light text-center">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th width="5%">No</th>
+                                    <th>Nama Kategori</th>
+                                    <th width="20%">Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+                                $no = 1;
+                                while ($row = mysqli_fetch_assoc($data)) {
+                            ?>
+
+                            <tr>
+                                <td class="text-center">
+                                    <?=$no++; ?>
+                                </td>
+
+                                <td>
+                                    <?= $row['ket_kategori']; ?>
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="../proses/edit-kategori.php?id=<?= $row['id_kategori;']; ?>
+                                        $nama<?= $row['ket_kategori']; ?>"
+                                        class="btn btn-sm btn-warning">
+                                    </a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
