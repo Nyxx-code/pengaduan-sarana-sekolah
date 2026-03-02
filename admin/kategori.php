@@ -15,7 +15,7 @@
     $data = mysqli_query($conn, "
         SELECT * FROM kategori
         ORDER By id_kategori DESC
-    ")
+    ");
 
 ?>
 
@@ -67,15 +67,16 @@
 
             <div class="card-body">
                 <form method="post" action="../proses/tambah-kategori.php" class="mb-3">
-                    <div class="col-md-8">
-                        <input type="text" 
-                            name="ket_kategori" 
-                            class="form-control" 
-                            placeholder="nama kategori" required
-                        >
-                        <br>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" 
+                                name="ket_kategori" 
+                                class="form-control" 
+                                placeholder="nama kategori" required
+                            >
+                        </div>                          
 
-                        <!-- tombol tambah -->
+                        <!-- tombol tambah -->  
                         <div class="col-md-4 d-grid">
                             <button class="btn btn-success" name="simpan">
                                 <i class="fa-solid fa-plus"></i> Tambah
@@ -87,12 +88,12 @@
 
                 <!-- tabel data kategori -->
                 <div class="table-responsive">
-                    <table class="table-light text-center">
+                    <table class="table table-bordered table-striped">
                         <thead class="table-light text-center">
                             <tr>
                                 <th width="5%">No</th>
-                                    <th>Nama Kategori</th>
-                                    <th width="20%">Aksi</th>
+                                <th>Nama Kategori</th>
+                                <th width="20%">Aksi</th>
                             </tr>
                         </thead>
 
@@ -111,14 +112,23 @@
                                     <?= $row['ket_kategori']; ?>
                                 </td>
 
+                                <!-- tombol edit -->
                                 <td class="text-center">
-                                    <a href="../proses/edit-kategori.php?id=<?= $row['id_kategori;']; ?>
+                                    <a href="../proses/edit-kategori.php?id=<?= $row['id_kategori']; ?>
                                         $nama<?= $row['ket_kategori']; ?>"
                                         class="btn btn-sm btn-warning">
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
 
+                                    <!-- tombol hapus -->
+                                    <a href="../proses/hapus-kategori.php?id=<?= $row['id_kategori']; ?>"
+                                    class="btn btn-sm btn-danger" onclick="return confirm('Hapus kategori ini?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
+
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -126,6 +136,7 @@
             </div>
         </div>
     </div>
-
+    
+<script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
