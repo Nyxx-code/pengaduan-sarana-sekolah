@@ -38,6 +38,7 @@ if (!isset($_SESSION['admin'])) {
             </div>
         </div>
     </nav>
+    
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-12 mb-4">
@@ -78,7 +79,7 @@ if (!isset($_SESSION['admin'])) {
                        <i class="fa-solid fa-user-graduate text-primary mb-3"></i>
                         <h5>Tambah akun siswa</h5>
                         <p class="text-muted">Kelola akun siswa</p>
-                        <a href="data-pengaduan.php" class="btn btn-primary"> Tambah siswa</a>
+                        <a href="tambah-siswa.php" class="btn btn-primary"> Tambah siswa</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +92,7 @@ if (!isset($_SESSION['admin'])) {
                         <i class="fa-solid fa-building-columns text-primary mb-3"></i>
                         <h5>Laporan</h5>
                         <p class="text-muted">Rekap pengaduan siswa</p>
-                        <a href="data-pengaduan.php" class="btn btn-primary"> Lihat</a>
+                        <a href="laporan.php" class="btn btn-primary"> Lihat</a>
                     </div>
                 </div>
             </div>

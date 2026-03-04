@@ -114,12 +114,11 @@
 
                                 <!-- tombol edit -->
                                 <td class="text-center">
-                                    <a href="../proses/edit-kategori.php?id=<?= $row['id_kategori']; ?>
-                                        $nama<?= $row['ket_kategori']; ?>"
-                                        class="btn btn-sm btn-warning">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                    <a href="../proses/edit-kategori.php?id=<?= $row['id_kategori']; ?>&nama=<?= urlencode($row['ket_kategori']); ?>"
+                                    class="btn btn-sm btn-warning">
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-
+                                    
                                     <!-- tombol hapus -->
                                     <a href="../proses/hapus-kategori.php?id=<?= $row['id_kategori']; ?>"
                                     class="btn btn-sm btn-danger" onclick="return confirm('Hapus kategori ini?')">
