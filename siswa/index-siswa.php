@@ -26,7 +26,7 @@ $siswa = $_SESSION['siswa'];
             <span class="navbar-brand">
                 <i class="fa-solid fa-graduation-cap"></i> Pengaduan Sarana Sekolah - siswa
             </span>
-            <a href="../proses/logout-siswa.php" class="btn btn-sm btn-light">
+            <a href="../proses/logout-siswa.php" class="btn btn-sm btn-danger">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
             </a>
         </div>

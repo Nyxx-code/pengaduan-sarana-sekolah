@@ -27,12 +27,15 @@
 <body class="bg-light">
     <nav class="navbar navbar-dark bg-success">
         <div class="container-fluid">
-            <a href="index-siswa.php" class="navbar-brand">
-                <i class="fa-solid fa-arrow-left"></i> Kembali
-            </a>
-
+            <span class="navbar-brand">
+                <i class="fa-solid fa-graduation-cap"></i> Pengaduan Sarana Sekolah - siswa
+            </span>
+            
             <span class="navbar-text text-white">
-                <p><b>NIS :</b>  <?= $siswa['nis']; ?> <b>Kelas</b> <?= $siswa['kelas']; ?> </p>
+                <p><b>NIS :</b>  <?= $siswa['nis']; ?>
+                    <b>Nama :</b> <?= $siswa['nama']; ?>
+                    <b>Kelas</b> <?= $siswa['kelas']; ?> 
+                </p>
             </span>
         </div>
     </nav>
@@ -44,45 +47,46 @@
             </h5>
        
 
-        <div class="card-body">
-            <form method="POST"action="../proses/simpan-pengaduan.php">
-                <div class="mb-3">
-                    <label class="form-label">Kategori sarana: </label>
-                    <select name="id_kategori" class="form-select"> <!--BELUM REQUIRED-->
-                        <option value="">--Silakan pilih kategori sarana</option>
+            <div class="card-body">
+                <form method="POST"action="../proses/simpan-pengaduan.php">
+                    <div class="mb-3">
+                        <label class="form-label">Kategori sarana: </label>
+                        <select name="id_kategori" class="form-select"> <!--BELUM REQUIRED-->
+                            <option value="">--Silakan pilih kategori sarana--</option>
 
-                        <?php while ($k = mysqli_fetch_assoc($kategori)) { ?>
+                            <?php while ($k = mysqli_fetch_assoc($kategori)) { ?>
 
-                       <option value="<?= $k['id_kategori']; ?>">
-                            <?= $k['ket_kategori']; ?>
-                            <?php } ?>
-                        </option>
-                    </select>
-                </div>
+                        <option value="<?= $k['id_kategori']; ?>">
+                                <?= $k['ket_kategori']; ?>
+                                <?php } ?>
+                            </option>
+                        </select>
+                    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Lokasi</label>
-                    <input type="text" name="lokasi" class="form-control" required>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lokasi</label>
+                        <input type="text" name="lokasi" class="form-control" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi pengaduan</label>
-                    <textarea name="ket" class="form-control" rows="4" required></textarea>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi pengaduan</label>
+                        <textarea name="ket" class="form-control" rows="4" required></textarea>
+                    </div>
 
-                <div class="d-flex justify-content-between">
-                    <button class="btn btn-light">
-                        <a href="index-siswa.php">
-                            <i class="fa-solid fa-arrow-left"></i> Batal
-                        </a>
-                    </button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-light">
+                            <a href="index-siswa.php">
+                                <i class="fa-solid fa-arrow-left"></i> Batal
+                            </a>
+                        </button>
 
-                    <button type="submit" name="kirim" class="btn btn-success">
-                    Kirim pengaduan
-                    </button>
+                        <button type="submit" name="kirim" class="btn btn-success">
+                        Kirim pengaduan
+                        </button>
 
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </div>
 
         

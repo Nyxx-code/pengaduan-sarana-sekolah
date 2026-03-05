@@ -18,6 +18,7 @@
 
     // membersihkan input form nis dan kelas
     $nis = mysqli_real_escape_string($conn, $_POST['nis']);
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
     $kelas = mysqli_real_escape_string($conn, $_POST['kelas']);
 
     //cek data
@@ -30,8 +31,8 @@
 
     //proses simpan akun siswa
     $simpan = mysqli_query($conn, "
-        INSERT INTO siswa (nis, kelas)
-        VALUES ('$nis', '$kelas')
+        INSERT INTO siswa (nis,nama,kelas)
+        VALUES ('$nis', '$nama', '$kelas')
     ");
 
     //notif berhasil/gagal

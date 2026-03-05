@@ -59,6 +59,7 @@
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>NIS</th>
+                                <th>Nama</th>
                                 <th>Kelas</th>
                                 <th>Kategori</th>
                                 <th>Lokasi</th>
@@ -78,6 +79,7 @@
                                 ia. tanggal,
                                 S. nis,
                                 s. kelas,
+                                s. nama, 
                                 k. ket_kategori,
                                 ia. lokasi,
                                 ia. ket,
@@ -92,7 +94,7 @@
 
                                 LEFT JOIN aspirasi a ON ia.id_pelaporan = a.id_pelaporan
 
-                                ORDER BY ia.tanggal DESC
+                                ORDER BY ia.tanggal ASC
                                 ");
 
                                 if (mysqli_num_rows($query) >0 ) {
@@ -104,17 +106,19 @@
                             <tr>
                                 <td class="text-center"><?= $no++; ?> </td>
 
-                                <td class="text-center"><?= date('d-m-y H:i', strtotime($row ['tanggal'])); ?> </td>
+                                <td class="text-center"><?= date('d-m-Y H:i', strtotime($row ['tanggal'])); ?> </td>
 
                                 <td class="text-center"><?= $row['nis']; ?> </td>
 
+                                <td class="text-center"><?= $row['nama']; ?></td>
+
                                 <td class="text-center"><?= $row['kelas']; ?> </td>
 
-                                <td><?= $row['ket_kategori']; ?> </td>
+                                <td class="text-center"><?= $row['ket_kategori']; ?> </td>
 
-                                <td><?= $row['lokasi']; ?> </td>
+                                <td class="text-center"><?= $row['lokasi']; ?> </td>
 
-                                <td><?= $row['ket']; ?> </td>
+                                <td class="text-center"><?= $row['ket']; ?> </td>
 
                                 <td class="text-center">
                                     <?php

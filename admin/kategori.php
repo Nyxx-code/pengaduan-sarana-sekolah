@@ -14,7 +14,7 @@
     //mengambil data kategori dari database
     $data = mysqli_query($conn, "
         SELECT * FROM kategori
-        ORDER By id_kategori DESC
+        ORDER By id_kategori ASC
     ");
 
 ?>
@@ -72,7 +72,7 @@
                             <input type="text" 
                                 name="ket_kategori" 
                                 class="form-control" 
-                                placeholder="nama kategori" required
+                                placeholder="Masukkan nama kategori baru" required
                             >
                         </div>                          
 

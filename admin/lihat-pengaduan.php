@@ -25,6 +25,7 @@
             ia. id_pelaporan,
             ia. id_kategori,
             s. nis,
+            s.nama,
             s. kelas,
             k. ket_kategori,
             ia. lokasi,
@@ -98,6 +99,11 @@
                     </tr>
 
                     <tr>
+                        <th>Nama</th>
+                        <td><?= $data['nama']; ?> </td>
+                    </tr>
+
+                    <tr>
                         <th>Kelas</th>
                         <td><?= $data['kelas']; ?> </td>
                     </tr>
@@ -135,7 +141,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Feedback</label>
-                        <textarea name="feedback" class="form-control" rows="3" <?= $data['feedback']; ?> ></textarea>
+                        <textarea name="feedback" class="form-control" rows="3"><?= $data['feedback']; ?></textarea>
                     </div>
 
                     <div class="d-flex justify-content-between">

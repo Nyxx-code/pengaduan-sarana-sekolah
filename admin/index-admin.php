@@ -1,11 +1,12 @@
 <?php
-session_start();
+    session_start();
 
-include "../koneksi.php";
+    include "../koneksi.php";
 
-//cek apakah admin sdh login
-if (!isset($_SESSION['admin'])) {
-    header("location : login.php");
+    //cek apakah admin sdh login
+    if (!isset($_SESSION['admin'])) {
+        header("location : login.php
+    ");
     exit;
 }
 
@@ -27,27 +28,32 @@ if (!isset($_SESSION['admin'])) {
             <span class="navbar-brand fw-bold" href="#">
                 <i class="fa-solid fa-school"></i> Pengaduan Sarana Sekolah - Admin
             </span>
+
             <div class="d-flex">
                 <span class="text-white me-3">
                     <i class="fa-solid fa-user"></i>
                     <?= $_SESSION['admin']; ?>
                 </span>
-                <a href="../proses/logout.php" class="btn btn-light btn-sm">
+
+                <a href="../proses/logout.php" class="btn btn-danger btn-sm">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
+
             </div>
+
         </div>
+
     </nav>
     
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-12 mb-4">
-                <div class="alert alert-success">
-                    <strong>Selamat datang!</strong>
-                    Anda login sebagai <b>admin</b>.
-                    Silakan kelola data pengaduan sarana sekolah.
+                <div class="alert alert-success text-center">
+                    <strong>Login berhasil!</strong><br>
+                    Anda saat ini masuk sebagai <b>Administrator</b>.
                 </div>
             </div>
+
             <!-- =====================Card 1 data pengaduan ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
@@ -60,7 +66,7 @@ if (!isset($_SESSION['admin'])) {
                 </div>
             </div>
 
-                  <!-- =====================Card 2 data kategori ============================= -->
+            <!-- =====================Card 2 data kategori ============================= -->
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
@@ -76,7 +82,7 @@ if (!isset($_SESSION['admin'])) {
             <div class="col-md-4">
                 <div class="card shadow-sm mb-3">
                     <div class="card-body text-center">
-                       <i class="fa-solid fa-user-graduate text-primary mb-3"></i>
+                        <i class="fa-solid fa-user-graduate text-primary mb-3"></i>
                         <h5>Tambah akun siswa</h5>
                         <p class="text-muted">Kelola akun siswa</p>
                         <a href="tambah-siswa.php" class="btn btn-primary"> Tambah siswa</a>
@@ -99,6 +105,7 @@ if (!isset($_SESSION['admin'])) {
 
         </div>
     </div>
+    
 <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
