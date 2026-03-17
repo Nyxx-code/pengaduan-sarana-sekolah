@@ -51,7 +51,7 @@
                 <form method="POST"action="../proses/simpan-pengaduan.php">
                     <div class="mb-3">
                         <label class="form-label">Kategori sarana: </label>
-                        <select name="id_kategori" class="form-select"> <!--BELUM REQUIRED-->
+                        <select name="id_kategori" class="form-select" required> 
                             <option value="">--Silakan pilih kategori sarana--</option>
 
                             <?php while ($k = mysqli_fetch_assoc($kategori)) { ?>

@@ -141,13 +141,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Feedback</label>
-                        <textarea name="feedback" class="form-control" rows="3"><?= $data['feedback']; ?></textarea>
+                        <textarea name="feedback" class="form-control" rows="3" required><?= $data['feedback']; ?></textarea>
                     </div>
-
-                    <div class="d-flex justify-content-between">
-                        <a href="data-pengaduan.php" class="btn btn-secondary">
-                            Kembali
-                        </a>
 
                         <button class="btn btn-success" type="submit" name="simpan">
                             Simpan

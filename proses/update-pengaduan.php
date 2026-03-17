@@ -20,6 +20,15 @@
     $status = mysqli_real_escape_string($conn, $_POST['status']);
     $feedback = mysqli_real_escape_string($conn, $_POST['feedback']);
 
+    //validasi semua field harus diisi
+    if($status == "" || $feedback == ""){
+        echo "<script>
+                alert('Status dan feedback wajib diisi!');
+                window.history.back();
+            </script>";
+        exit;
+    }
+
     //cek data aspirasi berdasarkan id_pelaporan
     $cek = mysqli_query($conn, "
         SELECT * FROM aspirasi 

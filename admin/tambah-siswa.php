@@ -10,9 +10,19 @@
     // koneksi database
     include "../koneksi.php";
 
-    //ambil data dari database
-    $datasiswa = mysqli_query($conn, "SELECT * FROM siswa ORDER BY nis ASC");
+     // pagination
+    $limit = 10;
 
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $start = ($page - 1) * $limit;
+
+    //ambil data dari database
+    $datasiswa = mysqli_query($conn, "SELECT * FROM siswa ORDER BY nis ASC LIMIT $start, $limit");
+
+    $total     = mysqli_query($conn, "SELECT COUNT(*) as total FROM siswa");
+    $totalData = mysqli_fetch_assoc($total)['total'];
+    $totalPage = ceil($totalData / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +131,7 @@
 
                             <tbody>
                                <?php
-                                    $no = 1;
+                                    $no = $start + 1;
                                     if(mysqli_num_rows($datasiswa) > 0) :
                                         while ($row = mysqli_fetch_assoc($datasiswa)) :
                                     ?>
@@ -132,6 +142,12 @@
                                         <td class="text-center"><?= htmlspecialchars($row['nama']); ?></td>
                                         <td class="text-center"><?= htmlspecialchars($row['kelas']); ?></td>
                                         <td class="text-center">
+
+                                            <a href="edit-siswa.php?nis=<?= $row['nis']; ?>"
+                                            class="btn btn-sm btn-warning">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+
                                             <a href="../proses/hapus-siswa.php?nis=<?= $row['nis']; ?>" 
                                             class="btn btn-danger btn-sm"
                                             onclick="return confirm('Yakin ingin menghapus siswa ini?')">
@@ -147,13 +163,43 @@
                                 ?>
 
                                 <tr>
-                                    <td colspan="3" class="text-center">Belum ada data</td>
+                                    <td colspan="5" class="text-center">Belum ada data</td>
                                 </tr>
 
                                 <?php endif; ?>
 
                             </tbody>
                         </table>
+
+                        <nav>
+                            <ul class="pagination justify-content-center">
+
+                                <?php if($page > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page-1 ?>"> &lt; </a>
+                                </li>
+                                <?php endif; ?>
+
+                                <?php for($i=1; $i <= $totalPage; $i++) : ?>
+                                    <?php if ($i == 1 || $i == $totalPage || abs($i - $page) <= 2) : ?>
+                                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                        </li>
+                                    <?php elseif (abs($i - $page) == 3) : ?>
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+
+                                <?php if($page < $totalPage) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page+1 ?>"> &gt; </a>
+                                </li>
+                                <?php endif; ?>
+
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

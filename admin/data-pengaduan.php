@@ -3,6 +3,29 @@
 
     include "../koneksi.php";
 
+    // pagination
+    $limit = 10;
+
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $start = ($page - 1) * $limit;
+
+    // search
+    $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+ 
+    $whereClause = '';
+    if (!empty($search)) {
+        $whereClause = "WHERE (
+            s.nis       LIKE '%$search%' OR
+            s.nama      LIKE '%$search%' OR
+            s.kelas     LIKE '%$search%' OR
+            k.ket_kategori LIKE '%$search%' OR
+            ia.lokasi   LIKE '%$search%' OR
+            ia.ket      LIKE '%$search%' OR
+            IFNULL(a.status, 'menunggu') LIKE '%$search%'
+        )";
+    }
+
     if (!isset($_SESSION['admin'])) {
         header ("location: login.php");
         exit;
@@ -52,6 +75,28 @@
             </div>
 
             <div class="card-body">
+
+                <!-- Search Form -->
+                <form method="GET" action="" class="mb-3">
+                    <div class="input-group" style="max-width: 400px;">
+                        <input 
+                            type="text" 
+                            name="search" 
+                            class="form-control" 
+                            placeholder="Cari NIS, nama, kelas, kategori, lokasi..."
+                            value="<?= htmlspecialchars($search); ?>"
+                        >
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i> Cari
+                        </button>
+                        <?php if (!empty($search)) : ?>
+                            <a href="?" class="btn btn-secondary">
+                                <i class="fa-solid fa-xmark"></i> Reset
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </form>
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
                         <thead class="table-light text-center">
@@ -71,7 +116,7 @@
 
                         <tbody>
                             <?php
-                                $no = 1;
+                                $no = $start + 1;
 
                                 $query = mysqli_query($conn, "
                                 SELECT 
@@ -94,8 +139,24 @@
 
                                 LEFT JOIN aspirasi a ON ia.id_pelaporan = a.id_pelaporan
 
+                                $whereClause
+
                                 ORDER BY ia.tanggal ASC
+
+                                LIMIT $start, $limit
                                 ");
+
+                                $total = mysqli_query($conn, "
+                                    SELECT COUNT(*) as total 
+                                    FROM input_aspirasi ia
+                                    JOIN siswa s ON ia.nis = s.nis
+                                    JOIN kategori k ON ia.id_kategori = k.id_kategori
+                                    LEFT JOIN aspirasi a ON ia.id_pelaporan = a.id_pelaporan
+                                    $whereClause
+                                ");
+                                
+                                $totalData = mysqli_fetch_assoc($total)['total'];
+                                $totalPage = ceil($totalData / $limit);
 
                                 if (mysqli_num_rows($query) >0 ) {
                                 
@@ -103,6 +164,7 @@
                                 
                             ?>
 
+                            
                             <tr>
                                 <td class="text-center"><?= $no++; ?> </td>
 
@@ -149,15 +211,48 @@
                                 }
                                 }else {
                                     echo "<tr>
-                                                <td colspan='8' class='text-center'>
-                                                    Data belum tersedia
-                                                </td>
-                                          </tr>";
+                                            <td colspan='10' class='text-center'>
+                                                " . (!empty($search) 
+                                                    ? "Data tidak ditemukan untuk pencarian \"<strong>" . htmlspecialchars($search) . "</strong>\"" 
+                                                    : "Data belum tersedia") . "
+                                            </td>
+                                        </tr>";
                                 }
                                 ?>
                             </tr>
                         </tbody>
                     </table>
+
+                    <nav>
+                         <ul class="pagination justify-content-center">
+ 
+                            <?php if ($page > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page-1 ?>&search=<?= urlencode($search) ?>"> &lt; </a>
+                                </li>
+                            <?php endif; ?>
+ 
+                            <?php for ($i = 1; $i <= $totalPage; $i++) : ?>
+                                <?php if ($i == 1 || $i == $totalPage || abs($i - $page) <= 2) : ?>
+                                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+                                    </li>
+                                    
+                                <?php elseif (abs($i - $page) == 3) : ?>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+ 
+                            <?php if ($page < $totalPage) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page+1 ?>&search=<?= urlencode($search) ?>"> &gt; </a>
+                                </li>
+                            <?php endif; ?>
+ 
+                        </ul>
+                    </nav>
                 </div>
             </div>
             

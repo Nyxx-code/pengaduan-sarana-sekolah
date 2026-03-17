@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
     <title>Dashboard admin</title>
 </head>
+
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
        
