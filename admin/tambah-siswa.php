@@ -1,28 +1,48 @@
 <?php
-    session_start();
+session_start();
 
-    //cek login admin
-    if(!isset($_SESSION['admin'])) {
-        header("location: login.php");
-        exit;
-    }
+// cek login admin
+if(!isset($_SESSION['admin'])) {
+    header("location: login.php");
+    exit;
+}
 
-    // koneksi database
-    include "../koneksi.php";
+// koneksi database
+include "../koneksi.php";
 
-     // pagination
-    $limit = 10;
+// pagination
+$limit = 10;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+// ambil keyword search
+$keyword = isset($_GET['keyword']) ? mysqli_real_escape_string($conn, $_GET['keyword']) : '';
 
-    $start = ($page - 1) * $limit;
+// query dengan search
+if(!empty($keyword)) {
+    $query = "SELECT * FROM siswa 
+              WHERE nis LIKE '%$keyword%' 
+              OR nama LIKE '%$keyword%' 
+              OR kelas LIKE '%$keyword%'
+              ORDER BY nis ASC 
+              LIMIT $start, $limit";
 
-    //ambil data dari database
-    $datasiswa = mysqli_query($conn, "SELECT * FROM siswa ORDER BY nis ASC LIMIT $start, $limit");
+    $queryTotal = "SELECT COUNT(*) as total FROM siswa 
+                   WHERE nis LIKE '%$keyword%' 
+                   OR nama LIKE '%$keyword%' 
+                   OR kelas LIKE '%$keyword%'";
+} else {
+    $query = "SELECT * FROM siswa 
+              ORDER BY nis ASC 
+              LIMIT $start, $limit";
 
-    $total     = mysqli_query($conn, "SELECT COUNT(*) as total FROM siswa");
-    $totalData = mysqli_fetch_assoc($total)['total'];
-    $totalPage = ceil($totalData / $limit);
+    $queryTotal = "SELECT COUNT(*) as total FROM siswa";
+}
+
+$datasiswa = mysqli_query($conn, $query);
+$total     = mysqli_query($conn, $queryTotal);
+$totalData = mysqli_fetch_assoc($total)['total'];
+$totalPage = ceil($totalData / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -36,175 +56,154 @@
 </head>
 <body class="bg-light">
 
-    <!--navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-       
-        <div class="container-fluid">
-            <span class="navbar-brand fw-bold" href="#">
-                <i class="fa-solid fa-school"></i> Pengaduan Sarana Sekolah - Admin
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">
+            <i class="fa-solid fa-school"></i> Pengaduan Sarana Sekolah - Admin
+        </span>
+
+        <div class="d-flex">
+            <span class="text-white me-3">
+                <i class="fa-solid fa-user"></i>
+                <?= $_SESSION['admin']; ?>
             </span>
 
-            <div class="d-flex">
-                <span class="text-white me-3">
-                    <i class="fa-solid fa-user"></i>
-                    <?= $_SESSION['admin']; ?>
-                </span>
+            <a href="index-admin.php" class="btn btn-light btn-sm me-2">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </a>
 
-                <!-- tombol kembali -->
-                <div class="d-flex">
-                    <a href="index-admin.php" class="btn btn-light btn-sm me-2">
-                        <i class="fa-solid fa-arrow-left"></i> Kembali
-                    </a>
-                </div>
-
-                    <a href="../proses/logout.php" class="btn btn-danger btn-sm">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
-            </div>
+            <a href="../proses/logout.php" class="btn btn-danger btn-sm">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="container mt-4">
+<div class="container mt-4">
 
-        <!--notifikasi-->
-        <?php
-        if(isset($_SESSION['success'])) : ?>
-
-        <div class="alert alert-success alert-dismissible fade show">
-            <i class="fa-solid fa-circle-check"></i><?= $_SESSION['success']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <!-- FORM TAMBAH -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Form tambah siswa</h5>
         </div>
 
-        <?php unset($_SESSION['success']); endif; ?>
+        <div class="card-body">
+            <form method="post" action="../proses/tambah-siswa.php">
+                <div class="mb-3">
+                    <label>NIS</label>
+                    <input type="text" name="nis" class="form-control" required>
+                </div>
 
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Form tambah siswa</h5>
-            </div>
+                <div class="mb-3">
+                    <label>Nama</label>
+                    <input type="text" name="nama" class="form-control" required>
+                </div>
 
-            <!--form menambahkan nis dan kelas-->
-            <div class="card-body">
-                <form method="post" action="../proses/tambah-siswa.php">
-                    <div class="mb-3">
-                        <label class="form-label">NIS</label>
-                        <input type="text" name="nis" class="form-control" placeholder="Masukkan NIS siswa" required>
-                    </div>
+                <div class="mb-3">
+                    <label>Kelas</label>
+                    <input type="text" name="kelas" class="form-control" required>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Nama</label>
-                        <input type="text" name="nama" class="form-control" placeholder="Masukkan nama siswa" required>
-                    </div>
+                <button type="submit" name="simpan" class="btn btn-success w-100">
+                    Simpan
+                </button>
+            </form>
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Kelas</label>
-                        <input type="text" name="kelas" class="form-control" placeholder="Masukkan kelas siswa"required>
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" name="simpan" class="btn btn-success">
-                            Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
+    <!-- TABEL -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Daftar siswa</h5>
         </div>
 
-            <!--Daftar akun siswa-->
-            <div class="card shadow-sm mt-4">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Daftar siswa</h5>
-                </div>
+        <div class="card-body">
 
-                
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead class="table-light text-center">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nis</th>
-                                    <th>Nama</th>
-                                    <th>Kelas</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
+            <!-- SEARCH -->
+            <form method="GET" class="mb-3 d-flex">
+                <input type="text" name="keyword" class="form-control me-2"
+                       placeholder="Cari NIS / Nama / Kelas..."
+                       value="<?= $keyword ?>">
 
-                            <tbody>
-                               <?php
-                                    $no = $start + 1;
-                                    if(mysqli_num_rows($datasiswa) > 0) :
-                                        while ($row = mysqli_fetch_assoc($datasiswa)) :
-                                    ?>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i> Cari
+                </button>
+            </form>
 
-                                    <tr>
-                                        <td class="text-center"><?= $no++; ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($row['nis']); ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($row['nama']); ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($row['kelas']); ?></td>
-                                        <td class="text-center">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No</th>
+                            <th>NIS</th>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
 
-                                            <a href="edit-siswa.php?nis=<?= $row['nis']; ?>"
-                                            class="btn btn-sm btn-warning">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
+                    <tbody>
+                        <?php
+                        $no = $start + 1;
+                        if(mysqli_num_rows($datasiswa) > 0) :
+                            while ($row = mysqli_fetch_assoc($datasiswa)) :
+                        ?>
 
-                                            <a href="../proses/hapus-siswa.php?nis=<?= $row['nis']; ?>" 
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Yakin ingin menghapus siswa ini?')">
-                                            <i class="fa-solid fa-trash"></i>
-                                            </a>
-                                        </td>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= htmlspecialchars($row['nis']); ?></td>
+                            <td><?= htmlspecialchars($row['nama']); ?></td>
+                            <td><?= htmlspecialchars($row['kelas']); ?></td>
+                            <td>
+                                <a href="edit-siswa.php?nis=<?= $row['nis']; ?>" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-pen"></i>
+                                </a>
 
-                                    </tr>
+                                <a href="../proses/hapus-siswa.php?nis=<?= $row['nis']; ?>"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Yakin hapus?')">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
 
-                                    <?php 
-                                        endwhile;
-                                    else:
-                                ?>
+                        <?php endwhile; else: ?>
+                        <tr>
+                            <td colspan="5">Tidak ada data</td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
 
-                                <tr>
-                                    <td colspan="5" class="text-center">Belum ada data</td>
-                                </tr>
+                <!-- PAGINATION -->
+                <ul class="pagination justify-content-center">
 
-                                <?php endif; ?>
+                    <?php if($page > 1) : ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page-1 ?>&keyword=<?= $keyword ?>">&lt;</a>
+                    </li>
+                    <?php endif; ?>
 
-                            </tbody>
-                        </table>
+                    <?php for($i=1; $i <= $totalPage; $i++) : ?>
+                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                            <a class="page-link" href="?page=<?= $i ?>&keyword=<?= $keyword ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
 
-                        <nav>
-                            <ul class="pagination justify-content-center">
+                    <?php if($page < $totalPage) : ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page+1 ?>&keyword=<?= $keyword ?>">&gt;</a>
+                    </li>
+                    <?php endif; ?>
 
-                                <?php if($page > 1) : ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page-1 ?>"> &lt; </a>
-                                </li>
-                                <?php endif; ?>
+                </ul>
 
-                                <?php for($i=1; $i <= $totalPage; $i++) : ?>
-                                    <?php if ($i == 1 || $i == $totalPage || abs($i - $page) <= 2) : ?>
-                                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                                        </li>
-                                    <?php elseif (abs($i - $page) == 3) : ?>
-                                        <li class="page-item disabled">
-                                            <span class="page-link">...</span>
-                                        </li>
-                                    <?php endif; ?>
-                                <?php endfor; ?>
-
-                                <?php if($page < $totalPage) : ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page+1 ?>"> &gt; </a>
-                                </li>
-                                <?php endif; ?>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -85,6 +85,16 @@
             </div>
 
             <div class="card-body">
+                <form method="GET" class="mb-3 d-flex">
+                    <input type="text" name="keyword" class="form-control me-2"
+                        placeholder="Cari..."
+                        value="<?= isset($keyword) ? $keyword : '' ?>">
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                </form>
+                
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
                         <thead class="table-light text-center">
