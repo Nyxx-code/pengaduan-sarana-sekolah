@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2026 at 08:38 AM
+-- Generation Time: Apr 01, 2026 at 03:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,8 +49,16 @@ CREATE TABLE `aspirasi` (
   `id_aspirasi` int(5) NOT NULL,
   `status` enum('menunggu','proses','selesai','') NOT NULL,
   `id_kategori` int(5) NOT NULL,
-  `feedback` text NOT NULL
+  `feedback` text NOT NULL,
+  `id_pelaporan` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aspirasi`
+--
+
+INSERT INTO `aspirasi` (`id_aspirasi`, `status`, `id_kategori`, `feedback`, `id_pelaporan`) VALUES
+(2, 'proses', 2, 'hgg', 4);
 
 -- --------------------------------------------------------
 
@@ -64,7 +72,7 @@ CREATE TABLE `input_aspirasi` (
   `lokasi` varchar(50) NOT NULL,
   `id_kategori` int(5) NOT NULL,
   `ket` varchar(50) NOT NULL,
-  `tanggal` date NOT NULL
+  `tanggal` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -78,6 +86,22 @@ CREATE TABLE `kategori` (
   `ket_kategori` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `ket_kategori`) VALUES
+(1, 'Lapangan'),
+(2, 'Parkiran'),
+(3, 'Internet / WiFi'),
+(4, 'Listrik'),
+(5, 'Ruang Kelas'),
+(6, 'Toilet / WC'),
+(7, 'Air'),
+(8, 'Keamanan Sekolah'),
+(9, 'Perpustakaan'),
+(10, 'Lainnya');
+
 -- --------------------------------------------------------
 
 --
@@ -86,15 +110,17 @@ CREATE TABLE `kategori` (
 
 CREATE TABLE `siswa` (
   `nis` int(10) NOT NULL,
-  `kelas` varchar(10) NOT NULL
+  `kelas` varchar(10) NOT NULL,
+  `nama` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `siswa`
 --
 
-INSERT INTO `siswa` (`nis`, `kelas`) VALUES
-(12345, '6');
+INSERT INTO `siswa` (`nis`, `kelas`, `nama`) VALUES
+(123, '2', 'liaa'),
+(123457, '7', 'p');
 
 --
 -- Indexes for dumped tables
@@ -141,13 +167,25 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT for table `aspirasi`
 --
 ALTER TABLE `aspirasi`
-  MODIFY `id_aspirasi` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_aspirasi` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `input_aspirasi`
+--
+ALTER TABLE `input_aspirasi`
+  MODIFY `id_pelaporan` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `nis` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12346;
+  MODIFY `nis` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123458;
 
 --
 -- Constraints for dumped tables
